@@ -3,7 +3,7 @@ import Converter from "./Converter";
 import PrivacyPolicy from "./PrivacyPolicy";
 import ContactUs from "./ContactUs";
 
-export default function App() {
+export default function app() {
   return (
     <WouterRouter>
       <Switch>
