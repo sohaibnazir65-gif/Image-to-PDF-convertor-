@@ -68,18 +68,17 @@ export default function Converter() {
     setProgress(0);
   }, []);
 
-  const handleDrop = useCallback(
-    (e: React.DragEvent) => {
-      e.preventDefault();
-      setIsDragging(false);
-      if (e.dataTransfer.files.length > 0) addImages(e.dataTransfer.files);
-    },
-    [addImages]
-  );
+  const handleDrop = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(false);
+    if (e.dataTransfer.files.length > 0) addImages(e.dataTransfer.files);
+  }, [addImages]);
+
   const handleDragOver = useCallback((e: React.DragEvent) => {
     e.preventDefault();
     setIsDragging(true);
   }, []);
+
   const handleDragLeave = useCallback((e: React.DragEvent) => {
     e.preventDefault();
     setIsDragging(false);
@@ -179,28 +178,19 @@ export default function Converter() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
-
-      {/* ── NAVBAR ── */}
       <header className="sticky top-0 z-20 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-xs">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex items-center gap-3">
-          <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-indigo-600 shadow-sm shrink-0">
-            <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
-            </svg>
-          </div>
-          <div>
-            <span className="text-lg font-bold text-slate-900 leading-tight">ImageToPDF</span>
-            <span className="hidden sm:inline text-slate-400 text-sm ml-2">— Free Image to PDF Converter</span>
-          </div>
-          <div className="ml-auto flex items-center gap-2">
-            <span className="text-xs bg-emerald-50 text-emerald-700 font-semibold px-3 py-1.5 rounded-full border border-emerald-200">
-              100% Free & Private
-            </span>
-          </div>
+          <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
+            <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-indigo-600 shadow-sm shrink-0">
+              <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+              </svg>
+            </div>
+            <span className="text-lg font-bold text-slate-900">ImageToPDF</span>
+          </Link>
         </div>
       </header>
 
-      {/* ── AD SLOT 1: LEADERBOARD (below navbar, full width) ── */}
       <div className="w-full bg-white border-b border-gray-200">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-2">
           <AdSlot label="728×90 Leaderboard" className="w-full">
@@ -211,13 +201,8 @@ export default function Converter() {
         </div>
       </div>
 
-      {/* ── MAIN CONTENT + SIDEBAR ── */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 flex flex-col lg:flex-row gap-8 items-start">
-
-        {/* ── LEFT: TOOL CONTENT ── */}
         <main className="flex-1 min-w-0">
-
-          {/* Hero */}
           <div className="text-center mb-8">
             <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight">
               Free Image to PDF Converter
@@ -227,46 +212,14 @@ export default function Converter() {
             </p>
           </div>
 
-          {/* Feature pills */}
-          <div className="flex flex-wrap justify-center gap-2 mb-8">
-            {[
-              "No server upload",
-              "Reorder pages",
-              "Instant download",
-              "Mobile friendly",
-              "A4 format",
-            ].map((feat) => (
-              <span key={feat} className="text-xs text-slate-600 bg-white border border-slate-200 px-3 py-1 rounded-full shadow-xs flex items-center gap-1.5">
-                <svg className="w-3 h-3 text-emerald-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                </svg>
-                {feat}
-              </span>
-            ))}
-          </div>
-
-          {/* Drop Zone */}
           <div
             onDrop={handleDrop}
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}
             onClick={() => fileInputRef.current?.click()}
-            className={`
-              relative border-2 border-dashed rounded-2xl p-10 sm:p-14 text-center cursor-pointer transition-all duration-200
-              ${isDragging
-                ? "border-indigo-500 bg-indigo-50 scale-[1.01]"
-                : "border-slate-300 bg-white hover:border-indigo-400 hover:bg-indigo-50/40"
-              }
-            `}
+            className={`relative border-2 border-dashed rounded-2xl p-10 sm:p-14 text-center cursor-pointer transition-all duration-200 ${isDragging ? "border-indigo-500 bg-indigo-50 scale-[1.01]" : "border-slate-300 bg-white hover:border-indigo-400 hover:bg-indigo-50/40"}`}
           >
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept="image/*"
-              multiple
-              className="hidden"
-              onChange={(e) => e.target.files && addImages(e.target.files)}
-            />
+            <input ref={fileInputRef} type="file" accept="image/*" multiple className="hidden" onChange={(e) => e.target.files && addImages(e.target.files)} />
             <div className="flex flex-col items-center gap-4">
               <div className={`w-16 h-16 rounded-2xl flex items-center justify-center transition-colors ${isDragging ? "bg-indigo-100" : "bg-slate-100"}`}>
                 <svg className={`w-8 h-8 transition-colors ${isDragging ? "text-indigo-600" : "text-slate-400"}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -274,44 +227,21 @@ export default function Converter() {
                 </svg>
               </div>
               <div>
-                <p className="text-lg font-semibold text-slate-700 mb-1">
-                  {isDragging ? "Drop images here" : "Drag & drop images here"}
-                </p>
+                <p className="text-lg font-semibold text-slate-700 mb-1">{isDragging ? "Drop images here" : "Drag & drop images here"}</p>
                 <p className="text-sm text-slate-400">or click to browse — JPG, PNG, WEBP, GIF accepted</p>
               </div>
-              <button
-                type="button"
-                className="bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white font-semibold px-7 py-2.5 rounded-xl shadow-sm transition-colors text-sm"
-                onClick={(e) => { e.stopPropagation(); fileInputRef.current?.click(); }}
-              >
-                Choose Images
-              </button>
+              <button type="button" className="bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white font-semibold px-7 py-2.5 rounded-xl shadow-sm transition-colors text-sm" onClick={(e) => { e.stopPropagation(); fileInputRef.current?.click(); }}>Choose Images</button>
             </div>
           </div>
 
-          {/* ── AD SLOT 2 (SQUARE — mobile only, between drop zone and grid) ── */}
-          <div className="block lg:hidden mt-6">
-            <AdSlot label="300×250 Square Ad" className="w-full max-w-sm mx-auto">
-              <div className="w-full h-[250px] flex items-center justify-center text-gray-300 text-sm tracking-wide">
-                Google AdSense — Square 300×250
-              </div>
-            </AdSlot>
-          </div>
-
-          {/* Image Grid */}
           {images.length > 0 && (
             <div className="mt-8">
               <div className="flex items-center justify-between mb-4">
                 <div>
-                  <h2 className="text-base font-bold text-slate-800">
-                    {images.length} image{images.length !== 1 ? "s" : ""} selected
-                  </h2>
+                  <h2 className="text-base font-bold text-slate-800">{images.length} image{images.length !== 1 ? "s" : ""} selected</h2>
                   <p className="text-xs text-slate-500 mt-0.5">Drag cards to reorder pages in your PDF</p>
                 </div>
-                <button
-                  onClick={clearAll}
-                  className="text-xs text-red-500 hover:text-red-700 font-medium flex items-center gap-1 transition-colors"
-                >
+                <button onClick={clearAll} className="text-xs text-red-500 hover:text-red-700 font-medium flex items-center gap-1 transition-colors">
                   <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                   </svg>
@@ -321,49 +251,20 @@ export default function Converter() {
 
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
                 {images.map((img, index) => (
-                  <div
-                    key={img.id}
-                    draggable
-                    onDragStart={() => handleCardDragStart(index)}
-                    onDragEnter={() => handleCardDragEnter(index)}
-                    onDragEnd={handleCardDragEnd}
-                    onDragOver={(e) => e.preventDefault()}
-                    className={`
-                      relative group bg-white rounded-xl border-2 overflow-hidden cursor-grab active:cursor-grabbing transition-all duration-150 shadow-xs
-                      ${dragOverIndex === index
-                        ? "border-indigo-500 scale-105 shadow-md"
-                        : "border-slate-200 hover:border-indigo-300 hover:shadow-sm"}
-                    `}
-                  >
+                  <div key={img.id} draggable onDragStart={() => handleCardDragStart(index)} onDragEnter={() => handleCardDragEnter(index)} onDragEnd={handleCardDragEnd} onDragOver={(e) => e.preventDefault()} className={`relative group bg-white rounded-xl border-2 overflow-hidden cursor-grab active:cursor-grabbing transition-all duration-150 shadow-xs ${dragOverIndex === index ? "border-indigo-500 scale-105 shadow-md" : "border-slate-200 hover:border-indigo-300 hover:shadow-sm"}`}>
                     <div className="aspect-[3/4] overflow-hidden bg-slate-100">
-                      <img
-                        src={img.preview}
-                        alt={img.name}
-                        className="w-full h-full object-cover transition-transform duration-200 group-hover:scale-105"
-                      />
+                      <img src={img.preview} alt={img.name} className="w-full h-full object-cover transition-transform duration-200 group-hover:scale-105" />
                     </div>
-                    <div className="absolute top-2 left-2 w-6 h-6 bg-indigo-600 text-white text-xs font-bold rounded-full flex items-center justify-center shadow-sm">
-                      {index + 1}
-                    </div>
-                    <button
-                      onClick={() => removeImage(img.id)}
-                      className="absolute top-2 right-2 w-6 h-6 bg-white/90 hover:bg-red-500 text-slate-600 hover:text-white rounded-full flex items-center justify-center shadow-sm transition-colors opacity-0 group-hover:opacity-100"
-                    >
+                    <div className="absolute top-2 left-2 w-6 h-6 bg-indigo-600 text-white text-xs font-bold rounded-full flex items-center justify-center shadow-sm">{index + 1}</div>
+                    <button onClick={() => removeImage(img.id)} className="absolute top-2 right-2 w-6 h-6 bg-white/90 hover:bg-red-500 text-slate-600 hover:text-white rounded-full flex items-center justify-center shadow-sm transition-colors opacity-0 group-hover:opacity-100">
                       <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                       </svg>
                     </button>
-                    <div className="px-2 py-1.5 bg-white">
-                      <p className="text-[11px] text-slate-500 truncate">{img.name}</p>
-                    </div>
+                    <div className="px-2 py-1.5 bg-white"><p className="text-[11px] text-slate-500 truncate">{img.name}</p></div>
                   </div>
                 ))}
-
-                {/* Add more card */}
-                <button
-                  onClick={() => fileInputRef.current?.click()}
-                  className="aspect-[3/4] rounded-xl border-2 border-dashed border-slate-300 hover:border-indigo-400 hover:bg-indigo-50/50 flex flex-col items-center justify-center gap-2 transition-all duration-150 cursor-pointer"
-                >
+                <button onClick={() => fileInputRef.current?.click()} className="aspect-[3/4] rounded-xl border-2 border-dashed border-slate-300 hover:border-indigo-400 hover:bg-indigo-50/50 flex flex-col items-center justify-center gap-2 transition-all duration-150 cursor-pointer">
                   <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center">
                     <svg className="w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
@@ -373,28 +274,16 @@ export default function Converter() {
                 </button>
               </div>
 
-              {/* Convert Panel */}
               <div className="mt-6 bg-white border border-slate-200 rounded-2xl p-5 shadow-xs">
-                {/* Progress bar */}
                 {(status === "converting" || status === "done") && (
                   <div className="mb-4">
                     <div className="flex justify-between text-sm mb-1.5">
-                      <span className="font-semibold text-slate-700">
-                        {status === "converting" ? `Processing image ${Math.ceil((progress / 100) * images.length)} of ${images.length}…` : "Conversion complete!"}
-                      </span>
+                      <span className="font-semibold text-slate-700">{status === "converting" ? `Processing image ${Math.ceil((progress / 100) * images.length)} of ${images.length}…` : "Conversion complete!"}</span>
                       <span className={`font-bold ${status === "done" ? "text-emerald-600" : "text-indigo-600"}`}>{progress}%</span>
                     </div>
                     <div className="h-2.5 bg-slate-100 rounded-full overflow-hidden">
-                      <div
-                        className={`h-full rounded-full transition-all duration-300 ease-out ${status === "done" ? "bg-emerald-500" : "bg-indigo-600"}`}
-                        style={{ width: `${progress}%` }}
-                      />
+                      <div className={`h-full rounded-full transition-all duration-300 ease-out ${status === "done" ? "bg-emerald-500" : "bg-indigo-600"}`} style={{ width: `${progress}%` }} />
                     </div>
-                    {status === "done" && (
-                      <p className="text-xs text-emerald-600 mt-1.5 font-medium">
-                        Your PDF is ready — {images.length} page{images.length !== 1 ? "s" : ""} included.
-                      </p>
-                    )}
                   </div>
                 )}
 
@@ -408,30 +297,17 @@ export default function Converter() {
                 )}
 
                 <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-                  <p className="flex-1 text-sm text-slate-500">
-                    {images.length} page{images.length !== 1 ? "s" : ""} · A4 format · PDF/1.3
-                  </p>
+                  <p className="flex-1 text-sm text-slate-500">{images.length} page{images.length !== 1 ? "s" : ""} · A4 format · PDF/1.3</p>
                   <div className="flex flex-col sm:flex-row gap-2.5">
                     {status === "done" && pdfUrl && (
-                      <button
-                        onClick={downloadPdf}
-                        className="flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-bold px-6 py-3 rounded-xl shadow-sm transition-colors text-sm"
-                      >
+                      <button onClick={downloadPdf} className="flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-bold px-6 py-3 rounded-xl shadow-sm transition-colors text-sm">
                         <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.2}>
                           <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                         </svg>
                         Download PDF
                       </button>
                     )}
-                    <button
-                      onClick={convertToPdf}
-                      disabled={status === "converting" || images.length === 0}
-                      className={`flex items-center justify-center gap-2 font-bold px-6 py-3 rounded-xl shadow-sm transition-all text-sm ${
-                        status === "converting"
-                          ? "bg-indigo-400 text-white cursor-not-allowed"
-                          : "bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white cursor-pointer"
-                      }`}
-                    >
+                    <button onClick={convertToPdf} disabled={status === "converting" || images.length === 0} className={`flex items-center justify-center gap-2 font-bold px-6 py-3 rounded-xl shadow-sm transition-all text-sm ${status === "converting" ? "bg-indigo-400 text-white cursor-not-allowed" : "bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white cursor-pointer"}`}>
                       {status === "converting" ? (
                         <>
                           <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
@@ -451,168 +327,28 @@ export default function Converter() {
                     </button>
                   </div>
                 </div>
-
-                {/* ── AD SLOT 3: BANNER (below Download PDF button) ── */}
-                <div className="mt-5 pt-4 border-t border-slate-100">
-                  <AdSlot label="468×60 Banner Ad" className="w-full">
-                    <div className="w-full h-[60px] flex items-center justify-center text-gray-300 text-sm tracking-wide">
-                      Google AdSense — Banner 468×60
-                    </div>
-                  </AdSlot>
-                </div>
               </div>
             </div>
           )}
-
-          {/* How It Works */}
-          <div className="mt-14">
-            <h2 className="text-center text-xl font-bold text-slate-800 mb-7">How it works</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-              {[
-                {
-                  step: "1",
-                  title: "Upload Your Images",
-                  desc: "Select JPG, PNG, WEBP, or GIF files from your device — or drag and drop them directly into the upload area.",
-                  icon: (
-                    <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
-                    </svg>
-                  ),
-                },
-                {
-                  step: "2",
-                  title: "Reorder Pages",
-                  desc: "Each image becomes one PDF page. Drag and drop the thumbnail cards to set the exact page order you want.",
-                  icon: (
-                    <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5" />
-                    </svg>
-                  ),
-                },
-                {
-                  step: "3",
-                  title: "Download PDF",
-                  desc: "Click Convert — your PDF is generated instantly in the browser. Hit Download PDF to save it. No waiting, no email required.",
-                  icon: (
-                    <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                    </svg>
-                  ),
-                },
-              ].map(({ step, title, desc, icon }) => (
-                <div key={step} className="bg-white border border-slate-200 rounded-2xl p-5 text-center shadow-xs hover:shadow-sm transition-shadow">
-                  <div className="w-11 h-11 bg-indigo-50 text-indigo-600 rounded-xl flex items-center justify-center mx-auto mb-3">
-                    {icon}
-                  </div>
-                  <div className="text-[10px] font-bold text-indigo-500 uppercase tracking-widest mb-1">Step {step}</div>
-                  <h3 className="font-bold text-slate-800 mb-1.5 text-sm">{title}</h3>
-                  <p className="text-xs text-slate-500 leading-relaxed">{desc}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* ── SEO ABOUT SECTION ── */}
-          <section className="mt-14 bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-xs">
-            <h2 className="text-xl font-bold text-slate-900 mb-4">
-              About Our Free Image to PDF Converter
-            </h2>
-            <div className="prose prose-sm prose-slate max-w-none space-y-4 text-slate-600 leading-relaxed">
-              <p>
-                Welcome to <strong>ImageToPDF</strong> — a fast, free, and fully browser-based <strong>JPG to PDF Converter</strong>. Whether you need to combine scanned documents, photos, screenshots, or artwork into a single portable file, our tool handles it instantly — with zero server uploads.
-              </p>
-              <h3 className="text-base font-bold text-slate-800 mt-4 mb-1">Why Choose Our Free Image to PDF Tool?</h3>
-              <ul className="list-disc list-inside space-y-1 text-sm">
-                <li><strong>100% Private &amp; Secure PDF Tool</strong> — your images never leave your device. All processing happens locally in your browser using the jsPDF library.</li>
-                <li><strong>No Account Required</strong> — open the page, upload, convert, download. Done in seconds.</li>
-                <li><strong>Supports Multiple Formats</strong> — JPG, JPEG, PNG, WEBP, and GIF images are all accepted.</li>
-                <li><strong>Reorder Pages</strong> — drag and drop your images into the exact order you want before converting.</li>
-                <li><strong>Mobile Friendly</strong> — works on any device: desktop, tablet, or smartphone.</li>
-                <li><strong>A4 PDF Output</strong> — each image is centered and scaled to fit an A4 page with proper margins.</li>
-              </ul>
-              <h3 className="text-base font-bold text-slate-800 mt-4 mb-1">How to Use the JPG to PDF Converter</h3>
-              <ol className="list-decimal list-inside space-y-1 text-sm">
-                <li>Click <strong>Choose Images</strong> or drag your photos into the upload area.</li>
-                <li>Reorder your images by dragging the thumbnail cards.</li>
-                <li>Click <strong>Convert to PDF</strong> and watch the progress bar fill up.</li>
-                <li>Click <strong>Download PDF</strong> to save your merged file.</li>
-              </ol>
-              <p className="text-xs text-slate-400 pt-2">
-                Keywords: Free Image to PDF, JPG to PDF Converter, PNG to PDF, Secure PDF Tool, Image Merge PDF, Online PDF Converter, Browser-based PDF Generator, Convert Photos to PDF, No Upload PDF Converter.
-              </p>
-            </div>
-          </section>
         </main>
 
-        {/* ── RIGHT SIDEBAR (desktop only) ── */}
         <aside className="hidden lg:flex flex-col gap-6 w-[300px] shrink-0 pt-2">
-          {/* ── AD SLOT 2: SQUARE SIDEBAR ── */}
           <div className="sticky top-[85px]">
             <AdSlot label="300×250 Square Ad" className="w-full">
-              <div className="w-[300px] h-[250px] flex items-center justify-center text-gray-300 text-sm tracking-wide">
-                Google AdSense — Square 300×250
-              </div>
+              <div className="w-[300px] h-[250px] flex items-center justify-center text-gray-300 text-sm tracking-wide">Google AdSense — Square 300×250</div>
             </AdSlot>
-
-            {/* Quick tips card */}
-            <div className="mt-5 bg-white border border-slate-200 rounded-2xl p-5 shadow-xs">
-              <h3 className="text-sm font-bold text-slate-800 mb-3 flex items-center gap-2">
-                <svg className="w-4 h-4 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                Quick Tips
-              </h3>
-              <ul className="space-y-2.5">
-                {[
-                  "Upload up to 50+ images at once",
-                  "Drag thumbnails to reorder pages",
-                  "Best quality: use PNG or high-res JPG",
-                  "Files never leave your browser",
-                  "Works offline once page is loaded",
-                ].map((tip) => (
-                  <li key={tip} className="flex items-start gap-2 text-xs text-slate-600">
-                    <svg className="w-3.5 h-3.5 text-indigo-400 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                    </svg>
-                    {tip}
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Supported formats card */}
-            <div className="mt-5 bg-white border border-slate-200 rounded-2xl p-5 shadow-xs">
-              <h3 className="text-sm font-bold text-slate-800 mb-3">Supported Formats</h3>
-              <div className="flex flex-wrap gap-2">
-                {["JPG", "JPEG", "PNG", "WEBP", "GIF"].map((fmt) => (
-                  <span key={fmt} className="text-xs font-bold bg-indigo-50 text-indigo-700 px-2.5 py-1 rounded-lg border border-indigo-100">
-                    {fmt}
-                  </span>
-                ))}
-              </div>
-              <p className="text-xs text-slate-400 mt-3 leading-relaxed">
-                Output is always a standard A4 PDF, compatible with all PDF readers.
-              </p>
-            </div>
           </div>
         </aside>
       </div>
 
-      {/* ── FOOTER ── */}
       <footer className="border-t border-slate-200 bg-white mt-10">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-slate-400">
-            <span className="font-medium text-slate-500">ImageToPDF — Free, private, browser-based PDF converter</span>
-            <nav className="flex items-center gap-5 text-xs">
-              <Link href="/privacy" className="hover:text-indigo-600 transition-colors">Privacy Policy</Link>
-              <Link href="/contact" className="hover:text-indigo-600 transition-colors">Contact Us</Link>
-              <span className="text-slate-300">·</span>
-              <span>Powered by jsPDF</span>
-            </nav>
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-400">
+          <span>© {new Date().getFullYear()} ImageToPDF — Free Image to PDF Converter</span>
+          <div className="flex items-center gap-4">
+            <Link href="/" className="hover:text-indigo-600 transition-colors">Converter</Link>
+            <Link href="/privacy" className="hover:text-indigo-600 transition-colors">Privacy Policy</Link>
+            <Link href="/contact" className="hover:text-indigo-600 transition-colors">Contact Us</Link>
           </div>
-          <p className="text-center text-[11px] text-slate-300 mt-3">
-            © {new Date().getFullYear()} ImageToPDF. Free Image to PDF Converter · JPG to PDF · PNG to PDF · Secure PDF Tool
-          </p>
         </div>
       </footer>
     </div>
