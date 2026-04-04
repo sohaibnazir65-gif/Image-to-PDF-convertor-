@@ -1,7 +1,7 @@
 import { Switch, Route, Router as WouterRouter } from "wouter";
-import Converter from "./pages/Converter";
-import PrivacyPolicy from "./pages/PrivacyPolicy";
-import ContactUs from "./pages/ContactUs";
+import Converter from "./Converter";
+import PrivacyPolicy from "./PrivacyPolicy";
+import ContactUs from "./ContactUs";
 
 function Router() {
   return (
