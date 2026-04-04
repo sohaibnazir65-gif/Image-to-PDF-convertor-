@@ -1,18 +1,25 @@
 import { Switch, Route, Router as WouterRouter } from "wouter";
-import Converter from "./Converter";
-import PrivacyPolicy from "./PrivacyPolicy";
-import ContactUs from "./ContactUs";
+import Converter from "./pages/Converter";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import ContactUs from "./pages/ContactUs";
 
-export default function app() {
+function Router() {
   return (
-    <WouterRouter>
-      <Switch>
-        <Route path="/" component={Converter} />
-        <Route path="/privacy" component={PrivacyPolicy} />
-        <Route path="/contact" component={ContactUs} />
-        <Route component={Converter} />
-      </Switch>
+    <Switch>
+      <Route path="/" component={Converter} />
+      <Route path="/privacy" component={PrivacyPolicy} />
+      <Route path="/contact" component={ContactUs} />
+      <Route component={Converter} />
+    </Switch>
+  );
+}
+
+function App() {
+  return (
+    <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
+      <Router />
     </WouterRouter>
   );
 }
 
+export default App;
