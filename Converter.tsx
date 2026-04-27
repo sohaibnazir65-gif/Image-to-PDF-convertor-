@@ -42,16 +42,17 @@ export default function Converter() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const dragItem = useRef<number | null>(null);
   const pdfUrlRef = useRef<string | null>(null);
-
-  useEffect(() => {
-    return () => { if (pdfUrlRef.current) URL.revokeObjectURL(pdfUrlRef.current); };
+    useEffect(() => {
+    return () => {
+      if (pdfUrlRef.current) URL.revokeObjectURL(pdfUrlRef.current);
+    };
   }, []);
 
   const addImages = useCallback((files: FileList | File[]) => {
     const validFiles = Array.from(files).filter((f) => f.type.startsWith("image/"));
     const newImages: ImageFile[] = validFiles.map((file) => ({
       id: generateId(),
-      file,
+      file: file,
       preview: URL.createObjectURL(file),
       name: file.name,
     }));
@@ -59,6 +60,7 @@ export default function Converter() {
     setPdfUrl(null);
     setStatus("idle");
   }, []);
+    
 
   const convertToPdf = async () => {
     if (images.length === 0) return;
